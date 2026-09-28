@@ -135,8 +135,7 @@ under two minutes.
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR-GITHUB-USERNAME/Smart-Job-Recommendation-System.git
-cd Smart-Job-Recommendation-System
+git clone https://github.com/hystericalventure/SmartJobRecommendationSystem.git
 python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
