@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Job Recommendation System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="hero">
+    <h1>Smart Job Recommendation System</h1>
+    <p>Find jobs that match your skills.</p>
+  </header>
+
+  <main class="container">
+    <form id="skills-form" action="{{ url_for('recommend') }}" method="POST" class="search-box">
+      <label for="skills">Enter your skills:</label>
+      <textarea id="skills" name="skills" rows="3" maxlength="500"
+                placeholder="Python, SQL, Machine Learning, NLP" required>{{ skills }}</textarea>
+
+      <div class="examples">
+        <span>Try:</span>
+        <button type="button" class="chip" data-skills="Python, Machine Learning, SQL">Python, Machine Learning, SQL</button>
+        <button type="button" class="chip" data-skills="Java, Spring Boot, MySQL">Java, Spring Boot, MySQL</button>
+        <button type="button" class="chip" data-skills="Data Analysis, Excel, SQL, Power BI">Data Analysis, Excel, SQL, Power BI</button>
+      </div>
+
+      <button type="submit" id="submit-btn" class="primary">Recommend Jobs</button>
+    </form>
+
+    {% if error %}
+      <div class="message error">{{ error }}</div>
+    {% endif %}
+
+    {% if jobs %}
+      <section>
+        <h2>Recommended Jobs</h2>
+        {% for job in jobs %}
+          <article class="card">
+            <div class="card-top">
+              <h3>{{ loop.index }}. {{ job.title }}</h3>
+              <span class="score">{{ job.match_percent }}% match</span>
+            </div>
+            {% if job.company %}<p class="meta"><strong>Company:</strong> {{ job.company }}</p>{% endif %}
+            {% if job.location %}<p class="meta"><strong>Location:</strong> {{ job.location }}</p>{% endif %}
+            {% if job.skills %}<p class="meta"><strong>Skills:</strong> {{ job.skills }}</p>{% endif %}
+            {% if job.matched_terms %}
+              <p class="meta"><strong>Matching words:</strong>
+                {% for term in job.matched_terms %}<span class="tag">{{ term }}</span>{% endfor %}
+              </p>
+            {% endif %}
+            {% if job.description %}<p class="desc">{{ job.description }}</p>{% endif %}
+            {% if job.url %}
+              <a class="view" href="{{ job.url }}" target="_blank" rel="noopener noreferrer">View Job</a>
+            {% endif %}
+          </article>
+        {% endfor %}
+        <p class="note">Match score = TF-IDF cosine similarity between your skills and the job text.
+          It is not a probability of getting hired.</p>
+      </section>
+    {% endif %}
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
