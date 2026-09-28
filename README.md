@@ -141,8 +141,8 @@ source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Replace `YOUR-GITHUB-USERNAME` above with your actual GitHub username once you've
-pushed the repo.
+Replace with your actual GitHub username once you've
+pushed the repo. 
 
 ## How to Train the Model
 
